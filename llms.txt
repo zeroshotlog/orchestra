@@ -1,0 +1,21 @@
+# Orchestra
+
+> A macOS desktop app that monitors AI coding agent sessions in real-time.
+
+## Quick Facts
+
+- Platform: macOS 11.0+
+- Architecture: Apple Silicon (aarch64)
+- Version: 0.1.0
+- License: MIT
+
+## Links
+
+- [GitHub Repository](https://github.com/reverseblade/orchestra-desktop)
+
+## Features
+
+- Real-time Monitoring: Monitor all Claude Code sessions in real-time via Hooks integration
+- Smart Cue System: Automatic notifications when agents need your attention
+- One-click Jump: Jump to any session with tmux + iTerm2 integration
+- Native macOS: Built with Tauri for a lightweight, native experience
