@@ -159,8 +159,13 @@
             </p>
             <p class="text-sm text-slate-400 mb-4 leading-relaxed">
                 This app is not signed with an Apple Developer certificate.
-                After downloading, run the following command to remove the quarantine flag:
+                You can open it using either method:
             </p>
+            <p class="text-sm text-slate-300 font-medium mb-2">Method 1: System Settings</p>
+            <p class="text-sm text-slate-400 mb-4 leading-relaxed">
+                Open <strong class="text-slate-300">System Settings → Privacy & Security</strong>, scroll down and click <strong class="text-slate-300">"Open Anyway"</strong> next to the blocked app message.
+            </p>
+            <p class="text-sm text-slate-300 font-medium mb-2">Method 2: Terminal</p>
             <div class="flex items-center gap-2">
                 <code class="font-mono text-xs bg-slate-800 px-3 py-2.5 rounded-lg flex-1 text-slate-300">
                     xattr -cr /Applications/Orchestra.app
