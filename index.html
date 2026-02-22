@@ -6,35 +6,107 @@
     <title>Orchestra - Monitor AI Coding Sessions</title>
     <meta name="description" content="A macOS desktop app that monitors AI coding agent sessions in real-time. Get notified when your agents need attention.">
     <link rel="icon" type="image/png" href="assets/icon.png"/>
+    <link rel="canonical" href="https://zeroshotlog.github.io/orchestra/">
+    <link rel="alternate" hreflang="en" href="https://zeroshotlog.github.io/orchestra/">
+    <link rel="alternate" hreflang="ja" href="https://zeroshotlog.github.io/orchestra/docs/ja/guide/what-is-orchestra.html">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self';
+                   script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline';
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                   font-src 'self' https://fonts.gstatic.com;
+                   img-src 'self' data:;
+                   connect-src 'self';
+                   object-src 'none';
+                   frame-ancestors 'none'">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zeroshotlog.github.io/orchestra/">
     <meta property="og:title" content="Orchestra - Monitor AI Coding Sessions">
     <meta property="og:description" content="A macOS desktop app that monitors AI coding agent sessions in real-time. Get notified when your agents need attention.">
-    <meta property="og:image" content="assets/ogp.png">
+    <meta property="og:image" content="https://zeroshotlog.github.io/orchestra/assets/ogp.png">
     <meta property="og:site_name" content="Orchestra">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Orchestra - Monitor AI Coding Sessions">
     <meta name="twitter:description" content="A macOS desktop app that monitors AI coding agent sessions in real-time. Get notified when your agents need attention.">
-    <meta name="twitter:image" content="assets/twitter-card.png">
+    <meta name="twitter:image" content="https://zeroshotlog.github.io/orchestra/assets/twitter-card.png">
 
-    <!-- Structured Data -->
+    <!-- Structured Data: SoftwareApplication -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Orchestra",
-        "description": "A macOS desktop app that monitors AI coding agent sessions in real-time.",
+        "description": "A free macOS desktop app that monitors AI coding agent sessions (such as Claude Code) in real-time. Track multiple sessions, get notified when agents need attention, and jump to any session instantly.",
         "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "macOS",
+        "operatingSystem": "macOS 11.0+",
+        "processorRequirements": "Apple Silicon (ARM64)",
         "softwareVersion": "0.1.2",
+        "datePublished": "2026-02-01",
+        "url": "https://zeroshotlog.github.io/orchestra/",
+        "downloadUrl": "https://github.com/zeroshotlog/orchestra/releases/download/v0.1.2/Orchestra_0.1.2_aarch64.dmg",
+        "screenshot": "https://zeroshotlog.github.io/orchestra/assets/screenshot.png",
+        "author": {
+            "@type": "Organization",
+            "name": "zeroshotlog",
+            "url": "https://github.com/zeroshotlog"
+        },
         "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
         }
+    }
+    </script>
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is Orchestra free?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Orchestra is completely free to download and use. There are no paid plans or subscriptions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Orchestra send my data to external servers?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Orchestra runs entirely on your local machine. The HTTP server only listens on localhost (127.0.0.1) and never sends data externally."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Which AI coding agents does Orchestra support?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Orchestra currently supports Claude Code through its Hooks integration. It monitors session status, tool usage, and permission requests in real-time."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Orchestra work on Intel Macs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Currently, Orchestra only supports Apple Silicon Macs (M1, M2, M3, M4). Intel Mac support is not available at this time."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does Orchestra integrate with Claude Code?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Orchestra uses Claude Code's Hooks feature. When configured, Claude Code sends events (tool use, completion, permission requests) to Orchestra's local HTTP server on port 3008, which displays them in a real-time dashboard."
+                }
+            }
+        ]
     }
     </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
@@ -82,6 +154,24 @@
             btn.classList.add('copied');
             setTimeout(() => btn.classList.remove('copied'), 2000);
         }
+        function toggleMobileMenu() {
+            var menu = document.getElementById('mobile-menu');
+            var btn = document.querySelector('[aria-controls="mobile-menu"]');
+            var isHidden = menu.classList.toggle('hidden');
+            btn.setAttribute('aria-expanded', !isHidden);
+        }
+        function closeMobileMenu() {
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.querySelector('[aria-controls="mobile-menu"]').setAttribute('aria-expanded', 'false');
+        }
+        function openGatekeeperModal() {
+            var modal = document.getElementById('gatekeeper-modal');
+            modal.classList.remove('hidden');
+            modal.querySelector('button').focus();
+        }
+        function closeGatekeeperModal() {
+            document.getElementById('gatekeeper-modal').classList.add('hidden');
+        }
     </script>
 </head>
 <body class="bg-background-dark text-slate-100 font-sans selection:bg-primary selection:text-white">
@@ -95,23 +185,41 @@
             </div>
             <div class="flex items-center gap-8">
                 <a href="#features" class="text-sm text-slate-400 hover:text-white transition-colors hidden sm:block">Features</a>
+                <a href="#faq" class="text-sm text-slate-400 hover:text-white transition-colors hidden sm:block">FAQ</a>
                 <a href="#download" class="text-sm text-slate-400 hover:text-white transition-colors hidden sm:block">Download</a>
-                <a href="docs/guide/what-is-orchestra.html" target="_blank" class="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white transition-colors hidden sm:block">
+                <a href="docs/guide/what-is-orchestra.html" target="_blank" class="items-center gap-1 text-sm text-slate-400 hover:text-white transition-colors hidden sm:inline-flex">
                     Docs
-                    <span class="material-symbols-outlined text-sm" style="font-size: 14px;">open_in_new</span>
+                    <span class="material-symbols-outlined text-sm" aria-hidden="true" style="font-size: 14px;">open_in_new</span>
                 </a>
-                <a href="#download" class="bg-primary hover:bg-primary-hover text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                <a href="#download" class="bg-primary hover:bg-primary-hover text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark hidden sm:block">
                     Download
+                </a>
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="sm:hidden p-2 text-slate-400 hover:text-white transition-colors" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden sm:hidden bg-background-dark/95 backdrop-blur-lg border-b border-border-dark">
+            <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-3">
+                <a href="#features" onclick="closeMobileMenu()" class="text-sm text-slate-400 hover:text-white transition-colors py-2">Features</a>
+                <a href="#faq" onclick="closeMobileMenu()" class="text-sm text-slate-400 hover:text-white transition-colors py-2">FAQ</a>
+                <a href="#download" onclick="closeMobileMenu()" class="text-sm text-slate-400 hover:text-white transition-colors py-2">Download</a>
+                <a href="docs/guide/what-is-orchestra.html" target="_blank" class="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white transition-colors py-2">
+                    Docs
+                    <span class="material-symbols-outlined text-sm" aria-hidden="true" style="font-size: 14px;">open_in_new</span>
                 </a>
             </div>
         </div>
     </nav>
 
+    <main>
     <!-- Hero -->
-    <main class="hero-gradient pt-16">
+    <section class="hero-gradient pt-16">
         <div class="max-w-6xl mx-auto px-6 pt-20 pb-12 text-center">
             <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-                <span class="bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">
+                <span class="bg-gradient-to-b from-white to-slate-300 bg-clip-text text-transparent">
                     Monitor AI Coding Sessions
                 </span>
             </h1>
@@ -123,15 +231,15 @@
             <!-- Download Button -->
             <div class="flex flex-col items-center gap-3 mb-6">
                 <a href="https://github.com/zeroshotlog/orchestra/releases/download/v0.1.2/Orchestra_0.1.2_aarch64.dmg"
-                   class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3.5 rounded-xl text-lg transition-colors shadow-lg shadow-primary/25">
-                    <span class="material-symbols-outlined">download</span>
+                   class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3.5 rounded-xl text-lg transition-colors shadow-lg shadow-primary/25 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark">
+                    <span class="material-symbols-outlined" aria-hidden="true">download</span>
                     Download for macOS (v0.1.2)
                 </a>
                 <div class="flex items-center gap-3 text-sm text-slate-500">
                     <span>macOS 11.0+ &middot; Apple Silicon</span>
-                    <button onclick="document.getElementById('gatekeeper-modal').classList.remove('hidden')"
+                    <button onclick="openGatekeeperModal()"
                             class="inline-flex items-center gap-1 text-amber-400/80 hover:text-amber-400 transition-colors">
-                        <span class="material-symbols-outlined text-sm">warning</span>
+                        <span class="material-symbols-outlined text-sm" aria-hidden="true">warning</span>
                         <span class="text-xs">Unsigned app?</span>
                     </button>
                 </div>
@@ -139,22 +247,22 @@
 
             <!-- Screenshot -->
             <div class="mt-10 max-w-4xl mx-auto">
-                <img src="assets/screenshot.png" alt="Orchestra Desktop Screenshot"
+                <img src="assets/screenshot.png" alt="Orchestra dashboard showing multiple Claude Code sessions with real-time status, cue notifications, and one-click jump buttons"
                      class="w-full h-auto"
                      style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));"
                      onerror="this.style.display='none'"/>
             </div>
 
     <!-- Gatekeeper Modal -->
-    <div id="gatekeeper-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('gatekeeper-modal').classList.add('hidden')"></div>
+    <div id="gatekeeper-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="gatekeeper-title">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeGatekeeperModal()"></div>
         <div class="relative bg-surface-dark border border-border-dark rounded-2xl p-6 max-w-md w-full shadow-2xl">
-            <button onclick="document.getElementById('gatekeeper-modal').classList.add('hidden')"
-                    class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
-                <span class="material-symbols-outlined">close</span>
+            <button onclick="closeGatekeeperModal()"
+                    class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors" aria-label="Close dialog">
+                <span class="material-symbols-outlined" aria-hidden="true">close</span>
             </button>
-            <p class="flex items-center gap-2 text-amber-400 font-medium mb-3">
-                <span class="material-symbols-outlined text-lg">warning</span>
+            <p id="gatekeeper-title" class="flex items-center gap-2 text-amber-400 font-medium mb-3">
+                <span class="material-symbols-outlined text-lg" aria-hidden="true">warning</span>
                 macOS Gatekeeper Notice
             </p>
             <p class="text-sm text-slate-400 mb-4 leading-relaxed">
@@ -172,15 +280,33 @@
                 </code>
                 <button onclick="copyToClipboard(this, 'xattr -cr /Applications/Orchestra.app')"
                         class="copy-btn relative p-2 rounded-lg hover:bg-slate-700 transition-colors text-slate-400 hover:text-white">
-                    <span class="material-symbols-outlined icon-copy text-sm">content_copy</span>
-                    <span class="material-symbols-outlined icon-check text-sm text-emerald-400">check</span>
+                    <span class="material-symbols-outlined icon-copy text-sm" aria-hidden="true">content_copy</span>
+                    <span class="material-symbols-outlined icon-check text-sm text-emerald-400" aria-hidden="true">check</span>
                     <span class="tooltip absolute -top-8 left-1/2 -translate-x-1/2 text-xs bg-slate-700 text-white px-2 py-1 rounded whitespace-nowrap">Copied!</span>
                 </button>
             </div>
         </div>
     </div>
         </div>
-    </main>
+    </section>
+
+    <!-- What is Orchestra? -->
+    <section id="about" class="py-20">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-8">What is Orchestra?</h2>
+            <div class="space-y-4 text-slate-300 leading-relaxed">
+                <p>
+                    <strong class="text-white">Orchestra</strong> is a free macOS desktop app that monitors AI coding agent sessions in real-time. When you run multiple Claude Code sessions in parallel, Orchestra provides a single dashboard to track each session's status, current activity, and progress.
+                </p>
+                <p>
+                    Orchestra integrates with Claude Code through its <strong class="text-white">Hooks</strong> feature. As Claude Code works, it sends events (tool use, task completion, permission requests) to Orchestra's local HTTP server. Orchestra aggregates these events and displays them in a real-time dashboard with smart notifications, so you never miss when an agent needs your attention.
+                </p>
+                <p>
+                    Built with <strong class="text-white">Tauri</strong> (Rust + React), Orchestra runs as a lightweight native macOS app with minimal resource usage. It supports <strong class="text-white">one-click jumping</strong> to any session via tmux integration, letting you switch context instantly without losing your flow.
+                </p>
+            </div>
+        </div>
+    </section>
 
     <!-- Features -->
     <section id="features" class="py-24 bg-slate-900/50">
@@ -192,49 +318,106 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                 <!-- Feature 1 -->
-                <div class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-blue-500/30 transition-colors">
+                <article id="real-time-monitoring" class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-blue-500/30 transition-colors">
                     <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-blue-400 text-2xl">monitoring</span>
+                        <span class="material-symbols-outlined text-blue-400 text-2xl" aria-hidden="true">monitoring</span>
                     </div>
                     <h3 class="font-semibold text-lg mb-2">Real-time Monitoring</h3>
                     <p class="text-sm text-slate-400 leading-relaxed">
                         Monitor all Claude Code sessions in real-time via Hooks integration. See status, tools, and progress at a glance.
                     </p>
-                </div>
+                </article>
 
                 <!-- Feature 2 -->
-                <div class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-purple-500/30 transition-colors">
+                <article id="smart-cue-system" class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-purple-500/30 transition-colors">
                     <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-purple-400 text-2xl">notifications_active</span>
+                        <span class="material-symbols-outlined text-purple-400 text-2xl" aria-hidden="true">notifications_active</span>
                     </div>
                     <h3 class="font-semibold text-lg mb-2">Smart Cue System</h3>
                     <p class="text-sm text-slate-400 leading-relaxed">
                         Automatic notifications when agents need your attention. Never miss a permission prompt or completion event.
                     </p>
-                </div>
+                </article>
 
                 <!-- Feature 3 -->
-                <div class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-emerald-500/30 transition-colors">
+                <article id="one-click-jump" class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-emerald-500/30 transition-colors">
                     <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-emerald-400 text-2xl">open_in_new</span>
+                        <span class="material-symbols-outlined text-emerald-400 text-2xl" aria-hidden="true">open_in_new</span>
                     </div>
                     <h3 class="font-semibold text-lg mb-2">One-click Jump</h3>
                     <p class="text-sm text-slate-400 leading-relaxed">
                         Jump to any session instantly with tmux + iTerm2 integration. Switch context without losing your flow.
                     </p>
-                </div>
+                </article>
 
                 <!-- Feature 4 -->
-                <div class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-orange-500/30 transition-colors">
+                <article id="native-macos" class="p-6 rounded-2xl bg-surface-dark/50 border border-border-dark hover:border-orange-500/30 transition-colors">
                     <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-orange-400 text-2xl">desktop_mac</span>
+                        <span class="material-symbols-outlined text-orange-400 text-2xl" aria-hidden="true">desktop_mac</span>
                     </div>
                     <h3 class="font-semibold text-lg mb-2">Native macOS</h3>
                     <p class="text-sm text-slate-400 leading-relaxed">
                         Built with Tauri for a lightweight, native experience. Minimal resource usage with system notifications and sounds.
                     </p>
-                </div>
+                </article>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4">FAQ</h2>
+            <p class="text-slate-400 text-center mb-12 max-w-xl mx-auto">
+                Frequently asked questions about Orchestra.
+            </p>
+            <div class="space-y-6">
+                <details open class="group p-5 rounded-xl bg-surface-dark/50 border border-border-dark">
+                    <summary class="font-medium text-white cursor-pointer list-none flex items-center justify-between">
+                        Is Orchestra free?
+                        <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+                        Yes. Orchestra is completely free to download and use. There are no paid plans or subscriptions.
+                    </p>
+                </details>
+                <details class="group p-5 rounded-xl bg-surface-dark/50 border border-border-dark">
+                    <summary class="font-medium text-white cursor-pointer list-none flex items-center justify-between">
+                        Does Orchestra send my data to external servers?
+                        <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+                        No. Orchestra runs entirely on your local machine. The HTTP server only listens on localhost (127.0.0.1) and never sends data externally. Your session data, command history, and working directories stay completely private.
+                    </p>
+                </details>
+                <details class="group p-5 rounded-xl bg-surface-dark/50 border border-border-dark">
+                    <summary class="font-medium text-white cursor-pointer list-none flex items-center justify-between">
+                        Which AI coding agents does Orchestra support?
+                        <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+                        Orchestra currently supports Claude Code through its Hooks integration. It monitors session status, tool usage, and permission requests in real-time.
+                    </p>
+                </details>
+                <details class="group p-5 rounded-xl bg-surface-dark/50 border border-border-dark">
+                    <summary class="font-medium text-white cursor-pointer list-none flex items-center justify-between">
+                        Does it work on Intel Macs?
+                        <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+                        Currently, Orchestra only supports Apple Silicon Macs (M1, M2, M3, M4). Intel Mac support is not available at this time.
+                    </p>
+                </details>
+                <details class="group p-5 rounded-xl bg-surface-dark/50 border border-border-dark">
+                    <summary class="font-medium text-white cursor-pointer list-none flex items-center justify-between">
+                        How does Orchestra integrate with Claude Code?
+                        <span class="material-symbols-outlined text-slate-400 group-open:rotate-180 transition-transform" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+                        Orchestra uses Claude Code's Hooks feature. When configured, Claude Code sends events (tool use, task completion, permission requests) to Orchestra's local HTTP server on port 3008, which aggregates and displays them in a real-time dashboard with smart notifications.
+                    </p>
+                </details>
             </div>
         </div>
     </section>
@@ -250,32 +433,34 @@
             <div class="p-8 rounded-2xl bg-surface-dark/50 border border-border-dark">
                 <ul class="text-left text-sm text-slate-300 space-y-3 mb-8 max-w-sm mx-auto">
                     <li class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                        <span class="material-symbols-outlined text-primary text-lg" aria-hidden="true">check_circle</span>
                         macOS 11.0+ (Apple Silicon)
                     </li>
                     <li class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                        <span class="material-symbols-outlined text-primary text-lg" aria-hidden="true">check_circle</span>
                         Claude Code Hooks integration
                     </li>
                     <li class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                        <span class="material-symbols-outlined text-primary text-lg" aria-hidden="true">check_circle</span>
                         Lightweight &amp; native performance
                     </li>
                     <li class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                        <span class="material-symbols-outlined text-primary text-lg" aria-hidden="true">check_circle</span>
                         Free &amp; open source
                     </li>
                 </ul>
 
                 <a href="https://github.com/zeroshotlog/orchestra/releases/download/v0.1.2/Orchestra_0.1.2_aarch64.dmg"
-                   class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3.5 rounded-xl text-lg transition-colors shadow-lg shadow-primary/25">
-                    <span class="material-symbols-outlined">download</span>
+                   class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3.5 rounded-xl text-lg transition-colors shadow-lg shadow-primary/25 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background-dark">
+                    <span class="material-symbols-outlined" aria-hidden="true">download</span>
                     Download for macOS (v0.1.2)
                 </a>
 
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="border-t border-border-dark py-8">

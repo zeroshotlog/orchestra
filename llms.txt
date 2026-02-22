@@ -1,21 +1,41 @@
 # Orchestra
 
-> A macOS desktop app that monitors AI coding agent sessions in real-time.
+> Orchestra is a free macOS desktop app that monitors AI coding agent sessions (such as Claude Code) in real-time. It provides a single dashboard to track multiple agent sessions, get notified when agents need attention, and jump to any session instantly.
 
 ## Quick Facts
 
-- Platform: macOS 11.0+
-- Architecture: Apple Silicon (aarch64)
-- Version: 0.1.0
-- License: MIT
+- Platform: macOS 11.0+ (Apple Silicon)
+- Version: 0.1.2
+- License: Proprietary (free to use)
+- Built with: Tauri (Rust) + React
+- Source: https://github.com/zeroshotlog/orchestra
+- Download: https://github.com/zeroshotlog/orchestra/releases/download/v0.1.2/Orchestra_0.1.2_aarch64.dmg
 
-## Links
+## How It Works
 
-- [GitHub Repository](https://github.com/reverseblade/orchestra-desktop)
+Orchestra integrates with Claude Code via Hooks. When Claude Code runs, it sends events (tool use, completion, permission requests) to Orchestra's local HTTP server. Orchestra aggregates these events into a real-time dashboard showing session status, current activity, and notifications.
 
 ## Features
 
-- Real-time Monitoring: Monitor all Claude Code sessions in real-time via Hooks integration
-- Smart Cue System: Automatic notifications when agents need your attention
-- One-click Jump: Jump to any session with tmux + iTerm2 integration
-- Native macOS: Built with Tauri for a lightweight, native experience
+- Real-time Monitoring: Monitor all Claude Code sessions via Hooks integration. See status, tools, and progress at a glance.
+- Smart Cue System: Automatic macOS notifications when agents need your attention. Never miss a permission prompt or completion event.
+- One-click Jump: Jump to any session instantly with tmux + iTerm2/Terminal/Warp integration. Switch context without losing your flow.
+- Native macOS: Built with Tauri for a lightweight, native experience. Minimal resource usage with system notifications and sounds.
+
+## Documentation
+
+- [What is Orchestra?](https://zeroshotlog.github.io/orchestra/docs/guide/what-is-orchestra.html): Overview and architecture explanation
+- [Getting Started](https://zeroshotlog.github.io/orchestra/docs/guide/getting-started.html): Installation and setup guide
+- [Real-time Monitoring](https://zeroshotlog.github.io/orchestra/docs/guide/real-time-monitoring.html): How session monitoring works
+- [Smart Cue System](https://zeroshotlog.github.io/orchestra/docs/guide/smart-cue-system.html): Notification system details
+- [One-click Jump](https://zeroshotlog.github.io/orchestra/docs/guide/one-click-jump.html): Terminal integration setup
+- [Native macOS](https://zeroshotlog.github.io/orchestra/docs/guide/native-macos.html): macOS-specific features
+- [FAQ](https://zeroshotlog.github.io/orchestra/docs/reference/faq.html): Frequently asked questions
+- [Troubleshooting](https://zeroshotlog.github.io/orchestra/docs/reference/troubleshooting.html): Common issues and solutions
+
+## FAQ
+
+- Q: Is Orchestra free? A: Yes, Orchestra is free to download and use.
+- Q: Does Orchestra send data externally? A: No. All data stays on your local machine. Orchestra only listens on localhost (127.0.0.1).
+- Q: Which AI agents are supported? A: Currently Claude Code is supported via its Hooks feature.
+- Q: Does it work with Intel Macs? A: Currently only Apple Silicon (M1/M2/M3/M4) is supported.
