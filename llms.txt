@@ -5,7 +5,7 @@
 ## Quick Facts
 
 - Platform: macOS 11.0+ (Apple Silicon)
-- Version: 0.3.1
+- Version: 0.3.2
 - License: Proprietary (free to use)
 - Built with: Tauri (Rust) + React
 - Source: https://github.com/zeroshotlog/orchestra
@@ -13,14 +13,25 @@
 
 ## How It Works
 
-Orchestra integrates with Claude Code via Hooks. When Claude Code runs, it sends events (tool use, completion, permission requests) to Orchestra's local HTTP server. Orchestra aggregates these events into a real-time dashboard showing session status, current activity, and notifications.
+Orchestra integrates with Claude Code via Hooks. When Claude Code runs, it sends events (tool use, completion, permission requests, subagent activity, team events) to Orchestra's local HTTP server. Orchestra aggregates these events into a real-time dashboard showing session status, current activity, and notifications.
 
 ## Features
 
-- Real-time Monitoring: Monitor all Claude Code sessions via Hooks integration. See status, tools, and progress at a glance.
-- Smart Cue System: Automatic macOS notifications when agents need your attention. Never miss a permission prompt or completion event.
+- Real-time Monitoring: Monitor all Claude Code sessions via Hooks integration. See status, tools, and progress at a glance with 11 activity types (Thinking, Research, Reading, Writing, Coding, Running, Testing, Tooling, Compacting, Delegating, Idle).
+- Smart Cue System: Automatic macOS notifications when agents need your attention. Never miss a permission prompt or completion event. Supports Snooze, Hide, and Remove actions.
 - One-click Jump: Jump to any session instantly with tmux + iTerm2/Terminal/Warp integration. Switch context without losing your flow.
+- Team Mode: Automatic detection of Claude Code Agent Teams. Team Lead sessions display vibrant rainbow borders, Member sessions get softer rainbow borders, with Lead/Member role badges.
+- Subagent Tracking: Track active subagent count per session. See delegating activity status when subagents are running.
 - Native macOS: Built with Tauri for a lightweight, native experience. Minimal resource usage with system notifications and sounds.
+
+## Supported Hook Events (13 events)
+
+PreToolUse, PostToolUse, Stop, Notification, SubagentStart, SubagentStop, SessionStart, SessionEnd, UserPromptSubmit, PermissionRequest, PreCompact, TeammateIdle, TaskCompleted
+
+## Installation
+
+Homebrew (recommended): brew install --cask zeroshotlog/tap/orchestra
+DMG: Download from GitHub Releases page
 
 ## Documentation
 
@@ -39,3 +50,5 @@ Orchestra integrates with Claude Code via Hooks. When Claude Code runs, it sends
 - Q: Does Orchestra send data externally? A: No. All data stays on your local machine. Orchestra only listens on localhost (127.0.0.1).
 - Q: Which AI agents are supported? A: Currently Claude Code is supported via its Hooks feature.
 - Q: Does it work with Intel Macs? A: Currently only Apple Silicon (M1/M2/M3/M4) is supported.
+- Q: Does it support Agent Teams? A: Yes. Team sessions are automatically detected and displayed with rainbow borders and Lead/Member role badges.
+- Q: How many hooks do I need? A: 13 hook events for full functionality. See Getting Started guide.
