@@ -5,7 +5,7 @@
 ## Quick Facts
 
 - Platform: macOS 11.0+ (Apple Silicon)
-- Version: 0.3.2
+- Version: 0.4.0
 - License: Proprietary (free to use)
 - Built with: Tauri (Rust) + React
 - Source: https://github.com/zeroshotlog/orchestra
