@@ -5,11 +5,11 @@
 ## Quick Facts
 
 - Platform: macOS 11.0+ (Apple Silicon)
-- Version: 0.4.1
+- Version: 0.4.2
 - License: Proprietary (free to use)
 - Built with: Tauri (Rust) + React
 - Source: https://github.com/zeroshotlog/orchestra
-- Download: https://github.com/zeroshotlog/orchestra/releases/download/v0.3.1/Orchestra_0.3.1_aarch64.dmg
+- Download: https://github.com/zeroshotlog/orchestra/releases/download/v0.4.2/Orchestra_0.4.2_aarch64.dmg
 
 ## How It Works
 
@@ -23,6 +23,10 @@ Orchestra integrates with Claude Code via Hooks. When Claude Code runs, it sends
 - Team Mode: Automatic detection of Claude Code Agent Teams. Team Lead sessions display vibrant rainbow borders, Member sessions get softer rainbow borders, with Lead/Member role badges.
 - Subagent Tracking: Track active subagent count per session. See delegating activity status when subagents are running.
 - Native macOS: Built with Tauri for a lightweight, native experience. Minimal resource usage with system notifications and sounds.
+
+## Agent Identification
+
+Orchestra supports an `agent` field in hook payloads to identify which AI coding tool sent the event. This enables multi-agent support (Claude Code, Codex, Gemini CLI, etc.) with distinct badges in the UI. The field is injected via sed in the hook command: `cat | sed 's/^{/{"agent":"claude-code",/'`. If omitted, no agent badge is shown (backward compatible).
 
 ## Supported Hook Events (13 events)
 
