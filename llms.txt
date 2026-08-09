@@ -5,11 +5,11 @@
 ## Quick Facts
 
 - Platform: macOS 11.0+ (Apple Silicon)
-- Version: 0.8.2
+- Version: 0.8.3
 - License: Proprietary (free to use)
 - Built with: Tauri (Rust) + React
 - Source: https://github.com/zeroshotlog/orchestra
-- Download: https://github.com/zeroshotlog/orchestra/releases/download/v0.8.2/Orchestra_0.8.2_aarch64.dmg
+- Download: https://github.com/zeroshotlog/orchestra/releases/download/v0.8.3/Orchestra_0.8.3_aarch64.dmg
 
 ## How It Works
 
