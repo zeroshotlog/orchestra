@@ -5,11 +5,11 @@
 ## Quick Facts
 
 - Platform: macOS 11.0+ (Apple Silicon)
-- Version: 0.10.0
+- Version: 0.11.0
 - License: Proprietary (free to use)
 - Built with: Tauri (Rust) + React
 - Source: https://github.com/zeroshotlog/orchestra
-- Download: https://github.com/zeroshotlog/orchestra/releases/download/v0.10.0/Orchestra_0.10.0_aarch64.dmg
+- Download: https://github.com/zeroshotlog/orchestra/releases/download/v0.11.0/Orchestra_0.11.0_aarch64.dmg
 
 ## How It Works
 
@@ -23,8 +23,10 @@ Orchestra integrates with Claude Code via Hooks. When Claude Code runs, it sends
 - Team Mode: Automatic detection of Claude Code Agent Teams. Team Lead sessions display vibrant rainbow borders, Member sessions get softer rainbow borders, with Lead/Member role badges.
 - Subagent Tracking: Track active subagent count per session. See delegating activity status when subagents are running.
 - Native macOS: Built with Tauri for a lightweight, native experience. Minimal resource usage with system notifications and sounds.
-- Orchestration (v0.10.0): Hand a goal to an orchestrator (Claude Agent SDK) that plans, dispatches tasks to worker agents (Claude Code, Codex, Kimi Code CLI), verifies results and finishes. The run is shown as a live graph (orchestrator → workers, running node highlighted, packets along edges) and a chat-style conversation, and finished goals can be replayed. Requires Node.js; the engine is bundled and installed to ~/.orchestra/engine on first use.
+- Orchestration (v0.11.0): Hand a goal to an orchestrator (Claude Agent SDK) that plans, dispatches tasks to worker agents (Claude Code, Codex, Kimi Code CLI), verifies results and finishes. The run is shown as a live graph (orchestrator → workers, running node highlighted, packets along edges) and a chat-style conversation, and finished goals can be replayed. Requires Node.js; the engine is bundled and installed to ~/.orchestra/engine on first use.
 - Usage & Cost: Daily / per-model / per-project token usage with USD estimates across Claude Code, Codex and Kimi; per-session charts including context size vs per-turn cost.
+- Local LLM workers (v0.11.0): If Ollama is running, its models appear as worker choices for Claude Code and Codex in Orchestration (value `ollama/<model>`); Codex runs with `--oss`, Claude Code through Ollama's Anthropic-compatible API. Local models are billed at $0.
+- Resource monitor (v0.11.0): Machine-wide memory gauge in the sidebar with a breakdown (agent sessions / Ollama / other), per-session memory and CPU on cards and in the session detail (process tree, RSS history), and a warning cue plus a filterable list for sessions left idle for hours while still holding memory (thresholds configurable, default 6 h / 2 GB).
 - Multi-agent: Claude Code, Codex CLI and Kimi Code CLI sessions side by side, each with its own badge; tmux session and window names are reflected within a second.
 
 ## Agent Identification
